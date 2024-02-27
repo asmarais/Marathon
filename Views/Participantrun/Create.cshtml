@@ -1,0 +1,91 @@
+﻿@model Participantsrun
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary"> Create Run</h2>
+			<hr />
+
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="EventAttributeFK"></label>
+			<input asp-for="EventAttributeFK" type="number" class="form-control"></input>
+			<span asp-validation-for="EventAttributeFK" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="ParticipantFK"></label>
+			<input asp-for="ParticipantFK" type="number" class="form-control"></input>
+			<span asp-validation-for="ParticipantFK" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Start"></label>
+			<input asp-for="Start" type="datetime-local" class="form-control"></input>
+			<span asp-validation-for="Start" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Run_10"></label>
+			<input asp-for="Run_10" type="datetime-local" class="form-control"></input>
+			<span asp-validation-for="Run_10" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Run_20"></label>
+			<input asp-for="Run_20" type="datetime-local" class="form-control"></input>
+			<span asp-validation-for="Run_20" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Run_HM"></label>
+			<input asp-for="Run_HM" type="datetime-local" class="form-control"></input>
+			<span asp-validation-for="Run_HM" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Run_30"></label>
+			<input asp-for="Run_30" type="datetime-local" class="form-control"></input>
+			<span asp-validation-for="Run_30" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Run_40"></label>
+			<input asp-for="Run_40" type="datetime-local" class="form-control"></input>
+			<span asp-validation-for="Run_40" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Run_M"></label>
+			<input asp-for="Run_M" type="datetime-local" class="form-control"></input>
+			<span asp-validation-for="Run_M" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Status" class="col-form-label"></label>
+			<select asp-for="Status" class="form-control" id="status">
+				<option value="Registred">Registred</option>
+				<option value="Canceled">Canceled</option>
+				<option value="Closed">Closed</option>
+
+			</select>
+			<span asp-validation-for="Status" class="text-danger"></span>
+		</div>
+		<div class="row ">
+			<!--if it's smaller than medium it will take 6 col-->
+			<div class="col-6 col-md-3">
+				<button type="submit" class="btn btn-primary form-control">Create</button>
+			</div>
+			<div class="col-6 col-md-3">
+				<a asp-contoller="Participantrun" asp-action="Index" class="btn btn-outline-secondary form-control">Back to List</a>
+
+			</div>
+
+		</div>
+	</div>
+</form>
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

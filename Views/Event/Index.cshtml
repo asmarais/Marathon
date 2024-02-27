@@ -1,0 +1,153 @@
+﻿@model List<Event>
+@{
+	Pager pager = new Pager();
+	int pagerNo = 0;
+	if(ViewBag.Pager != null)
+	{
+		pager = ViewBag.Pager;
+		pagerNo = pager.CurrentPage;
+	}
+}
+<div class="container">
+	<div class="row pt-4 pb-23">
+		<div class="col-6">
+			<h2 class="text-primary">
+				Events
+			</h2>
+		</div>
+		<div class="col-6 text-end">
+			<a asp-controller="Event" asp-action="Create" class="btn btn-primary">
+				Add a new event  <i class="bi bi-plus-circle"></i>
+
+			</a>
+		</div>
+	</div>
+	<!--Filter System-->
+	<form method="get" action="@Url.Action("Index", "Event")">
+		<div class="row pb-3">
+			<div class="col">
+				<input type="text" class="form-control" name="eventNameFilter" placeholder="Filter by Event Name">
+			</div>
+			<div class="col">
+				<select class="form-control" id="statusFilter" name="statusFilter">
+					<option value="">All</option>
+					<option value="Closed">Closed</option>
+					<option value="Released">Released</option>
+					<option value="Open">Open</option>
+				</select>
+			</div>
+			<div class="col">
+				<input type="date" class="form-control" name="startDateFilter" placeholder="Filter by Start Date">
+			</div>
+			<div class="col-auto">
+				<button type="submit" class="btn btn-primary form-control">Filter</button>
+			</div>
+		</div>
+		
+	</form>
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>
+					Name
+				</th>
+				<th>
+					Start
+				</th>
+				<th>
+					End
+				</th>
+				<th>
+					Maximum participant
+				</th>
+				<th>
+					Days before the event
+				</th>
+				<th>
+					Status
+				</th>
+				<th>
+					Remarks
+				</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var obj in Model)
+			{
+				<tr>
+					<td>@obj.EventName</td>
+					<td>@obj.Start</td>
+					<td>@obj.End</td>
+					<td>@obj.MaximumParticipants</td>
+					<td>@obj.DaysBeforeTheEvent</td>
+					<td>@obj.Status</td>
+					<td>@obj.Remarks</td>
+
+					<td>
+						<div class="w-75 btn-group" role="group">
+							<a asp-controller="Event" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+								<i class="bi bi-pencil-square"></i> Edit
+							</a>
+							<form id="deleteForm_@obj.Id" method="post" action="@Url.Action("Delete", "Event", new { id = obj.Id })">
+								<button type="button" class="btn btn-danger mx-2 delete-btn" data-event-id="@obj.Id">
+									<i class="bi bi-trash-fill"></i> Delete
+								</button>
+							</form>
+						</div>
+						<!--Maybe I will add a modal to confirm-->
+					</td>
+
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+<div class="container">
+	@if (pager.TotalPages > 0)
+	{
+		//pagination is a class from bootstrap
+		<ul class="pagination justify-content-end">
+			@if(pager.CurrentPage > 1)
+			{
+				<li class="page-item">
+					<a class="page-link" asp-controller="Event" asp-action="Index" asp-route-pg="1">First</a>
+				</li>
+				<li class="pager-item">
+					<a class="page-link" asp-controller="Event" asp-action="Index" asp-route-pg="@(pager.CurrentPage - 1)">Previous</a>
+				</li>
+			}
+			@for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+			{
+				<li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+					<a class="page-link" asp-controller="Event" asp-action="Index" asp-route-pg="@pge">@pge</a>
+				</li>
+			}
+			@if (pager.CurrentPage < pager.TotalPages)
+			{
+				<li class="page-item" >
+					<a class="page-link" asp-controller="Event" asp-action="Index" asp-route-pg="@(pager.CurrentPage + 1)">Next</a>
+				</li>
+				<li class="pager-item">
+					<a class="page-link" asp-controller="Event" asp-action="Index" asp-route-pg="@(pager.TotalPages)">Last</a>
+				</li>
+			}
+		</ul>
+	}
+</div>
+
+@section scripts {
+	
+	<script>
+		$(document).ready(function () {
+			$('.delete-btn').click(function () {
+				var eventId = $(this).data('event-id');
+				if (confirm('Are you sure you want to delete this event?')) {
+					$('#deleteForm_' + eventId).submit();
+				}
+			});
+		});
+		
+	</script>
+}
+

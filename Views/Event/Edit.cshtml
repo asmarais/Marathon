@@ -1,0 +1,84 @@
+﻿@model EventViewModel
+
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary"> Edit Event</h2>
+			<hr />
+		</div>
+		<!--This aps-for are tag helper-->
+		<div class="mb-3 row">
+			<label asp-for="Event.EventName"></label>
+			<input asp-for="Event.EventName" type="text" class="form-control"></input>
+			<span asp-validation-for="Event.EventName" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Event.Start" class="col-form-label"></label>
+			<input asp-for="Event.Start" type="datetime-local" class="form-control" id="startDateTime"></input>
+			<span asp-validation-for="Event.Start" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Event.End" class="col-form-label"></label>
+			<input asp-for="Event.End" type="datetime-local" class="form-control" id="endDateTime"></input>
+			<span asp-validation-for="Event.End" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Event.MaximumParticipants"></label>
+			<input asp-for="Event.MaximumParticipants" type="number" class="form-control"></input>
+			<span asp-validation-for="Event.MaximumParticipants" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Event.DaysBeforeTheEvent"></label>
+			<input asp-for="Event.DaysBeforeTheEvent" type="number" class="form-control"></input>
+			<span asp-validation-for="Event.DaysBeforeTheEvent" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Event.Status" class="col-form-label"></label>
+			<select asp-for="Event.Status" class="form-control" id="status">
+				<option value="open">Open</option>
+				<option value="closed">Closed</option>
+			</select>
+			<span asp-validation-for="Event.Status" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3 row">
+			<label asp-for="Event.Remarks" class="col-form-label"></label>
+			<input asp-for="Event.Remarks" type="text" class="form-control"></input>
+			<span asp-validation-for="Event.Remarks" class="text-danger"></span>
+		</div>
+		<div class="mb-3 row">
+		<!--I have to create a new object called event attribute through this checkboxes-->
+				
+			<div class="mb-3 row">
+				<legend>Choose your event's types:</legend>
+				@foreach (EventAttribute obj in Model.EventAttribute)
+				{
+					<label>
+						<input type="checkbox" value="@obj.Type" checked />
+						@obj.Type
+					</label>
+				}
+			</div>
+
+		</div>
+		<div class="row ">
+			<div class="col-6 col-md-3">
+				<button type="submit" class="btn btn-primary form-control">Edit</button>
+			</div>
+			<div class="col-6 col-md-3">
+				<a asp-contoller="Event" asp-action="Index" class="btn btn-outline-secondary form-control">Back to List</a>
+			</div>
+		</div>
+	</div>
+</form>
+@section scripts {
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}
